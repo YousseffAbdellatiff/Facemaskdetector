@@ -2,32 +2,34 @@ from tensorflow.keras.models import load_model
 from tensorflow.keras.preprocessing import image
 import numpy as np
 import os
+import sys
 
 #This line loads the created model
 model = load_model("mask_model.h5")
 
-img_path = 'testImage.jpg'
+img_folder = 'testImages'
 
 #For error handling in case the path to the file is not correct
-if not os.path.exists(img_path):
-    print(f"Image not found: {img_path}")
+if not os.path.exists(img_folder):
+    print(f"Image not found: {img_folder}")
+    sys.exit(1)
 else:
-    img = image.load_img(img_path, target_size=(224,224))
+    for filename in os.listdir(img_folder):
+        if filename.lower().endswith(('.jpg','.png','.jpeg')):
+            img_path = os.path.join(img_folder, filename)
+            try:
+                img = image.load_img(img_path, target_size=(224,224))
+                img_array = image.img_to_array(img)
+                img_array = np.expand_dims(img_array, axis=0)/255.0
+                
+                prediction = model.predict(img_array)
+                label = "Masked" if prediction[0][0] < 0.5 else "Not wearing mask"
 
-img_array = image.img_to_array(img)
-img_array = np.expand_dims(img_array, axis=0)
-img_array = img_array / 255.0  # Normalize
+                print(f"{filename}: {label} (Confidence: {1 - prediction[0][0] if label == 'Masked' else prediction[0][0]:.2f})")
 
-prediction = model.predict(img_array)
+            except Exception as e:
+                print(f"Error processing {filename}: {e}")
 
-confidence = prediction[0][0]
-if confidence > 0.5:
-    print(f"Prediction: No Mask ({confidence:.2f} confidence)")
-else:
-    print(f"Prediction: With Mask ({1 - confidence:.2f} confidence)")
 
-if prediction[0][0] > 0.5:
-    print("Prediction: No mask")
 
-else:
-    print("Prediction: With Mask")
+
