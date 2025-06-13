@@ -1,5 +1,6 @@
 from tensorflow.keras.models import load_model
 from tensorflow.keras.preprocessing import image
+import matplotlib.pyplot as plt
 import numpy as np
 import os
 import sys
@@ -26,6 +27,11 @@ else:
                 label = "Masked" if prediction[0][0] < 0.5 else "Not wearing mask"
 
                 print(f"{filename}: {label} (Confidence: {1 - prediction[0][0] if label == 'Masked' else prediction[0][0]:.2f})")
+
+                plt.imshow(img)
+                plt.title(f"{filename}\n{label}")
+                plt.axis('off')
+                plt.show()
 
             except Exception as e:
                 print(f"Error processing {filename}: {e}")
