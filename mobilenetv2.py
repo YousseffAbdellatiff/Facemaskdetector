@@ -55,3 +55,5 @@ plt.plot(history.history['accuracy'], label='train accuracy')
 plt.plot(history.history['val_accuracy'], label='validation accuracy')
 plt.legend()
 plt.show()
+
+model.save("mask_model.h5")
