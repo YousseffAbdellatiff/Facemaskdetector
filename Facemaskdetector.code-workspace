@@ -1,0 +1,13 @@
+{
+	"folders": [
+		{
+			"name": "Facemaskdetector",
+			"path": "."
+		},
+		{
+			"name": "dataset",
+			"path": "../../../../../Desktop/dataset"
+		}
+	],
+	"settings": {}
+}
