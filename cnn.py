@@ -26,7 +26,7 @@ train_data, val_data = get_data_generators(
 )
 
 # Number of output classes (binary classification: with mask and with no mask)
-num_of_classes = 2
+num_of_classes = 3
 
 # Initialize a Sequential model (stack of layers)
 model = keras.Sequential([
