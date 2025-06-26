@@ -26,12 +26,12 @@ model = keras.Sequential([
     layers.GlobalAveragePooling2D(),
     layers.Dense(128, activation='relu'),
     layers.Dropout(0.5),
-    layers.Dense(1, activation='sigmoid')
+    layers.Dense(3, activation='softmax')  # 3 classes
 ])
 
 model.compile(
     optimizer='adam',
-    loss='binary_crossentropy',
+    loss='categorical_crossentropy',       # for multi-class
     metrics=['accuracy']
 )
 
@@ -55,5 +55,3 @@ plt.plot(history.history['accuracy'], label='train accuracy')
 plt.plot(history.history['val_accuracy'], label='validation accuracy')
 plt.legend()
 plt.show()
-
-model.save("mask_model.h5")

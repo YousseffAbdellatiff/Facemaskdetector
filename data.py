@@ -14,14 +14,16 @@ def get_data_generators(data_path="dataset", img_size=224, batch_size=32):
         data_path,
         target_size=(img_size, img_size),
         batch_size=batch_size,
-        class_mode='binary',
-        subset='training'
+        class_mode='categorical',   # <-- change this!
+        subset='training',
+        shuffle=True
     )
     val_data = datagen.flow_from_directory(
         data_path,
         target_size=(img_size, img_size),
         batch_size=batch_size,
-        class_mode='binary',
-        subset='validation'
+        class_mode='categorical',   # <-- change this!
+        subset='validation',
+        shuffle=True
     )
     return train_data, val_data
