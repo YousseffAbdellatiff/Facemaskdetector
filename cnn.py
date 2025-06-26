@@ -71,13 +71,13 @@ model = keras.Sequential([
     # --- Output Layer ---
     # Final dense layer with 1 output unit and sigmoid activation
     # Sigmoid outputs a value between 0 and 1, suitable for binary classification
-    keras.layers.Dense(1, activation='sigmoid')  # Binary classification
+    keras.layers.Dense(3, activation='softmax')  # Binary classification
 ])
 
 # compile the neural network
 model.compile(optimizer='adam',
               #loss='binary_crossentropy',
-              loss='sparse_categorical_crossentropy',
+              loss='categorical_crossentropy',
               metrics=['accuracy'])
 
 # training the neural network
@@ -101,3 +101,5 @@ plt.plot(history.history['accuracy'], label='train accuracy')
 plt.plot(history.history['val_accuracy'], label='validation accuracy')
 plt.legend()
 plt.show()
+
+model.save("cnn_model.h5")
