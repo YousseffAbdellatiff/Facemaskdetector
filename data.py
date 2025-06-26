@@ -14,7 +14,7 @@ def get_data_generators(data_path="dataset", img_size=224, batch_size=32):
         data_path,
         target_size=(img_size, img_size),
         batch_size=batch_size,
-        class_mode='categorical',   # <-- change this!
+        class_mode='categorical',
         subset='training',
         shuffle=True
     )
@@ -22,7 +22,7 @@ def get_data_generators(data_path="dataset", img_size=224, batch_size=32):
         data_path,
         target_size=(img_size, img_size),
         batch_size=batch_size,
-        class_mode='categorical',   # <-- change this!
+        class_mode='categorical',
         subset='validation',
         shuffle=True
     )
