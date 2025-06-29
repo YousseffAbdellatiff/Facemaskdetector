@@ -56,9 +56,9 @@ mobilenet_model = keras.Sequential([
     layers.GlobalAveragePooling2D(),
     layers.Dense(128, activation='relu'),
     layers.Dropout(0.5),
-    layers.Dense(1, activation='sigmoid')
+    layers.Dense(1, activation='softmax')
 ])
-mobilenet_model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy'])
+mobilenet_model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
 
 history_mnv2 = mobilenet_model.fit(
     train_data_mnv2,
