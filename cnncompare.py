@@ -21,9 +21,9 @@ def build_model(num_dense_layers=2):
     if num_dense_layers == 3:
         layers.append(keras.layers.Dense(32, activation='relu'))
         layers.append(keras.layers.Dropout(0.5))
-    layers.append(keras.layers.Dense(1, activation='sigmoid'))
+    layers.append(keras.layers.Dense(1, activation='softmax'))
     model = keras.Sequential(layers)
-    model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy'])
+    model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
     return model
 
 # 2-layer model (matches cnn.py: 128 + 64 dense layers)
