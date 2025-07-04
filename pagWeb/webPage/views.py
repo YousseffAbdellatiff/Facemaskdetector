@@ -9,6 +9,8 @@ import os
 
 model = load_model("mask_model.h5")
 
+class_names = ['Incorrect', 'Masked', 'Without Mask']
+
 def mainPage(request):
     label = None
     confidence = None
@@ -33,8 +35,14 @@ def mainPage(request):
             img_array = np.expand_dims(img_array, axis=0) / 255.0
 
             prediction = model.predict(img_array)
-            label = "Masked" if prediction[0][0] < 0.5 else "Not wearing mask"
-            confidence = round(1 - prediction[0][0] if label == 'Masked' else prediction[0][0], 2)
+            predict_index = np.argmax(prediction[0])
+            confidence = float(prediction[0][predict_index])
+
+            label = class_names[predict_index]
+            if confidence < 0.7:
+                label = "Unknown"
+            else:
+                print(f"Prediction: {label} (Confidence: {confidence:.2f})")
 
     else:
         form = UploadImageForms()

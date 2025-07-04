@@ -10,6 +10,8 @@ model = load_model("mask_model.h5")
 
 img_folder = 'testImages'
 
+class_names = ['Incorrect', 'Masked', 'Without Mask']
+
 #For error handling in case the path to the file is not correct
 if not os.path.exists(img_folder):
     print(f"Image not found: {img_folder}")
@@ -24,12 +26,17 @@ else:
                 img_array = np.expand_dims(img_array, axis=0)/255.0
                 
                 prediction = model.predict(img_array)
-                label = "Masked" if prediction[0][0] < 0.5 else "Not wearing mask"
+                predict_index = np.argmax(prediction[0])
+                confidence = float(prediction[0][predict_index])
+                label = class_names[predict_index]
 
-                print(f"{filename}: {label} (Confidence: {1 - prediction[0][0] if label == 'Masked' else prediction[0][0]:.2f})")
+                if confidence < 0.7:
+                    label = "Unknown"
+                else:
+                    print(f"{filename}: {label} (Confidence: {confidence:.2f})")
 
                 plt.imshow(img)
-                plt.title(f"{filename}\n{label}")
+                plt.title(f"{filename}\n{label} ({confidence:.2f})")
                 plt.axis('off')
                 plt.show()
 
